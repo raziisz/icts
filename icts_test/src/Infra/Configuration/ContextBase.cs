@@ -30,7 +30,7 @@ namespace icts_test.Infrastructure.Configuration
         }
         public string GetConnectionString()
         {
-            return "server=localhost;user=root;password=123456;database=cts";
+            return "server=localhost; port=3306;user=root;password=123456;database=cts";
         }
     }
 }
