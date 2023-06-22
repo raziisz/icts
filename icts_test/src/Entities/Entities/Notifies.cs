@@ -46,5 +46,21 @@ namespace icts_test.Entities.Entities
 
             return true;
         }
+
+        public bool ValidatePropertyDouble(double value, string propertyName)
+        {
+            if (value <= 0 || string.IsNullOrWhiteSpace(propertyName))
+            {
+                Notitycoes.Add(new Notifies
+                {
+                    Message = "Campo Obrigatório",
+                    PropertyName = propertyName
+                });
+
+                return false;
+            }
+
+            return true;
+        }
     }
 }

@@ -12,5 +12,10 @@ namespace icts_test.Infrastructure.Repository.Repositories
         {
             _OptionsBuilder = new DbContextOptions<ContextBase>();
         }
+
+        public Task<bool> DeleteById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

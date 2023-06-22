@@ -1,5 +1,6 @@
 using AutoMapper;
 using icts_test.Domain.Interfaces;
+using icts_test.Domain.Interfaces.InterfaceServices;
 using icts_test.Entities.Entities;
 using icts_test.WebAPIs.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -15,24 +16,29 @@ namespace icts_test.WebAPIs.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IProduct _product;
+        private readonly IServiceProduct _serviceProduct;
 
         public ProductsController(
             IMapper mapper,
-            IProduct product
+            IProduct product,
+            IServiceProduct serviceProduct
         )
         {
             _mapper = mapper;
             _product = product;
+            _serviceProduct = serviceProduct;
         }
 
         [HttpPost("add")]
-        public async Task<List<Notifies>> Add([FromBody] ProductViewModel product)
+        public async Task<IActionResult> Add([FromBody] ProductViewModel product)
         {
             var productMap = _mapper.Map<Product>(product);
 
-            await _product.Add(productMap);
+            await _serviceProduct.Add(productMap);
 
-            return productMap.Notifycoes;
+            if(productMap.Notitycoes.Any()) return BadRequest(productMap.Notitycoes);
+
+            return NoContent();
         }
 
         [HttpPut("update")]
@@ -40,9 +46,9 @@ namespace icts_test.WebAPIs.Controllers
         {
             var productMap = _mapper.Map<Product>(product);
 
-            await _product.Update(productMap);
+            await _serviceProduct.Update(productMap);
 
-            return productMap.Notifycoes;
+            return productMap.Notitycoes;
         }
 
         [HttpDelete("delete")]
@@ -52,7 +58,7 @@ namespace icts_test.WebAPIs.Controllers
 
             await _product.Delete(productMap);
 
-            return productMap.Notifycoes;
+            return productMap.Notitycoes;
         }
 
         [HttpGet("{id}")]

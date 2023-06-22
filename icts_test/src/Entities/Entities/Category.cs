@@ -9,5 +9,6 @@ namespace icts_test.Entities.Entities
         public int Id { get; set; }
         [Column("ctg_name")]
         public string Name { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }
