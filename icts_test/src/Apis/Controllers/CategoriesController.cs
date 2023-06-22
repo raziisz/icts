@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace icts_test.WebAPIs.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/categories")]
     [ApiController]
     [Authorize]
     [Produces("application/json")]

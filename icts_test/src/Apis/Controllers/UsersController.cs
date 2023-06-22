@@ -44,7 +44,7 @@ namespace icts_test.WebAPIs.Controllers
                 var userCurrent = await _userManager.FindByNameAsync(login.Email);
                 var idUser = userCurrent.Id;
 
-                var token = new TokenJWTBuilder().AddSecurityKey(JwtSecurityKey.Create("Secret-Key-12345678"))
+                var token = new TokenJWTBuilder().AddSecurityKey(JwtSecurityKey.Create("Secret_Key-12345678"))
                     .AddSubject("Empresa - ICTS")
                     .AddIssuer("Teste.Security.Bearer")
                     .AddAudience("Teste.Security.Bearer")
