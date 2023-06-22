@@ -1,5 +1,6 @@
 using AutoMapper;
 using icts_test.Domain.Interfaces;
+using icts_test.Domain.Interfaces.InterfaceServices;
 using icts_test.Entities.Entities;
 using icts_test.WebAPIs.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -15,14 +16,17 @@ namespace icts_test.WebAPIs.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ICategory _category;
+        private readonly IServiceCategory _serviceCategory;
 
         public CategoriesController(
             IMapper mapper,
-            ICategory category
+            ICategory category,
+            IServiceCategory serviceCategory
         )
         {
             _mapper = mapper;
             _category = category;
+            _serviceCategory = serviceCategory;
         }
 
         [HttpPost("add")]
@@ -30,9 +34,9 @@ namespace icts_test.WebAPIs.Controllers
         {
             var categoryMap = _mapper.Map<Category>(category);
 
-            await _category.Add(categoryMap);
+            await _serviceCategory.Add(categoryMap);
 
-            return categoryMap.Notifycoes;
+            return categoryMap.Notitycoes;
         }
 
         [HttpPut("update")]
@@ -40,19 +44,20 @@ namespace icts_test.WebAPIs.Controllers
         {
             var categoryMap = _mapper.Map<Category>(category);
 
-            await _category.Update(categoryMap);
+            await _serviceCategory.Update(categoryMap);
 
-            return categoryMap.Notifycoes;
+            return categoryMap.Notitycoes;
         }
 
-        [HttpDelete("delete")]
-        public async Task<List<Notifies>> Delete([FromBody] CategoryViewModel category)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var categoryMap = _mapper.Map<Category>(category);
 
-            await _category.Delete(categoryMap);
+            var result = await _serviceCategory.DeleteById(id);
 
-            return categoryMap.Notifycoes;
+            if (!result) return BadRequest("Categoria inexistente.");
+
+            return NoContent();
         }
 
         [HttpGet("{id}")]

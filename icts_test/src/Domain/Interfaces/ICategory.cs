@@ -5,6 +5,6 @@ namespace icts_test.Domain.Interfaces
 {
     public interface ICategory : IGenerics<Category>
     {
-        
+        public Task<bool> DeleteById(int id);
     }
 }

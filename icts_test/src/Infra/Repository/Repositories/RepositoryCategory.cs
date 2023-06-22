@@ -12,5 +12,19 @@ namespace icts_test.Infrastructure.Repository.Repositories
         {
             _OptionsBuilder = new DbContextOptions<ContextBase>();
         }
+
+        public async Task<bool> DeleteById(int id)
+        {
+            using (var database = new ContextBase(_OptionsBuilder))
+            {
+                var category = await database.Categories.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (category == null) return false;
+                
+                database.Categories.Remove(category);
+
+                return await database.SaveChangesAsync() > 0;
+            }
+        }
     }
 }

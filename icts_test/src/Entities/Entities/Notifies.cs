@@ -4,22 +4,23 @@ namespace icts_test.Entities.Entities
 {
     public class Notifies
     {
-    public Notifies()
-    {
-        Notifycoes = new List<Notifies>();
-    }
+        public Notifies()
+        {
+            Notitycoes = new List<Notifies>();
+        }
         [NotMapped]
         public string PropertyName { get; set; }
         [NotMapped]
         public string Message { get; set; }
         [NotMapped]
-        public List<Notifies> Notifycoes { get; set; }
+        public List<Notifies> Notitycoes { get; set; }
 
         public bool ValidatePropertyString(string value, string propertyName)
         {
-            if (string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(propertyName)) 
+            if (string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(propertyName))
             {
-                Notifycoes.Add(new Notifies {
+                Notitycoes.Add(new Notifies
+                {
                     Message = "Campo Obrigatório",
                     PropertyName = propertyName
                 });
@@ -32,9 +33,10 @@ namespace icts_test.Entities.Entities
 
         public bool ValidatePropertyInt(int value, string propertyName)
         {
-            if (value < 1 || string.IsNullOrWhiteSpace(propertyName)) 
+            if (value < 1 || string.IsNullOrWhiteSpace(propertyName))
             {
-                Notifycoes.Add(new Notifies {
+                Notitycoes.Add(new Notifies
+                {
                     Message = "Campo Obrigatório",
                     PropertyName = propertyName
                 });
