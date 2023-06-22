@@ -27,7 +27,15 @@ namespace Domain.Services
 
             if (listValidations.TrueForAll(x => x == true))
             {
+                var categoryExists = await ExistsCategory(product.CategoryId);
+                if (!categoryExists) 
+                {
+                    product.AddNotifies("Categoria inexistente.", "CategoryId");
+                    return;
+                }
+                
                 await _IProduct.Add(product);
+
             }
         }
 
@@ -53,6 +61,11 @@ namespace Domain.Services
             {
                 await _IProduct.Update(product);
             }
+        }
+
+        private async Task<bool> ExistsCategory(int categoryId)
+        {
+            return await _IProduct.VerifyExistsCategory(categoryId);
         }
     }
 }

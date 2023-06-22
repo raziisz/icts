@@ -62,5 +62,14 @@ namespace icts_test.Entities.Entities
 
             return true;
         }
+
+        public void AddNotifies(string message, string propertyName)
+        {
+            Notitycoes.Add(new Notifies
+                {
+                    Message = message,
+                    PropertyName = propertyName
+                });
+        }
     }
 }

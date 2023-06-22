@@ -17,16 +17,19 @@ namespace icts_test.WebAPIs.Controllers
         private readonly IMapper _mapper;
         private readonly IProduct _product;
         private readonly IServiceProduct _serviceProduct;
+        private readonly ICategory _category;
 
         public ProductsController(
             IMapper mapper,
             IProduct product,
-            IServiceProduct serviceProduct
+            IServiceProduct serviceProduct,
+            ICategory category
         )
         {
             _mapper = mapper;
             _product = product;
             _serviceProduct = serviceProduct;
+            _category = category;
         }
 
         [HttpPost("add")]

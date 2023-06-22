@@ -17,5 +17,14 @@ namespace icts_test.Infrastructure.Repository.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<bool> VerifyExistsCategory(int categoryId)
+        {
+            using (var database = new ContextBase(_OptionsBuilder))
+            {
+                var category = await database.Categories.FirstOrDefaultAsync(x => x.Id == categoryId);
+                return category != null;
+            }
+        }
     }
 }
