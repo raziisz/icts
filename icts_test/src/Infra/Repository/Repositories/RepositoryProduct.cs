@@ -13,9 +13,18 @@ namespace icts_test.Infrastructure.Repository.Repositories
             _OptionsBuilder = new DbContextOptions<ContextBase>();
         }
 
-        public Task<bool> DeleteById(int id)
+        public async Task<bool> DeleteById(int id)
         {
-            throw new NotImplementedException();
+            using (var database = new ContextBase(_OptionsBuilder))
+            {
+                var product = await database.Products.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (product == null) return false;
+                
+                database.Products.Remove(product);
+
+                return await database.SaveChangesAsync() > 0;
+            }
         }
 
         public async Task<bool> VerifyExistsCategory(int categoryId)

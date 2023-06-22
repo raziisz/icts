@@ -41,7 +41,7 @@ namespace Domain.Services
 
         public async Task<bool> DeleteById(int id)
         {
-            throw new NotImplementedException();
+            return await _IProduct.DeleteById(id);
         }
 
         public async Task Update(Product product)
@@ -59,6 +59,12 @@ namespace Domain.Services
 
             if (listValidations.TrueForAll(x => x == true))
             {
+                var categoryExists = await ExistsCategory(product.CategoryId);
+                if (!categoryExists) 
+                {
+                    product.AddNotifies("Categoria inexistente.", "CategoryId");
+                    return;
+                }
                 await _IProduct.Update(product);
             }
         }

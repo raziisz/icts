@@ -33,6 +33,8 @@ namespace icts_test.WebAPIs.Controllers
         }
 
         [HttpPost("add")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add([FromBody] ProductViewModel product)
         {
             var productMap = _mapper.Map<Product>(product);
@@ -41,45 +43,60 @@ namespace icts_test.WebAPIs.Controllers
 
             if(productMap.Notitycoes.Any()) return BadRequest(productMap.Notitycoes);
 
-            return NoContent();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpPut("update")]
-        public async Task<List<Notifies>> Update([FromBody] ProductViewModel product)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update([FromBody] ProductViewModel product)
         {
+            var productDb = await _product.GetEntityById(product.Id);
+            if (productDb == null) return NotFound("Produto inexistente.");
+            
             var productMap = _mapper.Map<Product>(product);
 
             await _serviceProduct.Update(productMap);
 
-            return productMap.Notitycoes;
+            if(productMap.Notitycoes.Any()) return BadRequest(productMap.Notitycoes);
+
+            return NoContent();
         }
 
-        [HttpDelete("delete")]
-        public async Task<List<Notifies>> Delete([FromBody] ProductViewModel product)
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var productMap = _mapper.Map<Product>(product);
+            var result = await _serviceProduct.DeleteById(id);
+            
+            if (!result) return NotFound("Produto inexistente para exclusão.");
 
-            await _product.Delete(productMap);
-
-            return productMap.Notitycoes;
+            return NoContent();
         }
 
         [HttpGet("{id}")]
-        public async Task<ProductViewModel> Get([FromRoute] int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Get([FromRoute] int id)
         {
             var product = await _product.GetEntityById(id);
+            if (product == null) return NotFound("Produto inexistente.");
+
             var productMap = _mapper.Map<ProductViewModel>(product);
 
-            return productMap;
+            return Ok(productMap);
         }
 
         [HttpGet]
-        public async Task<List<ProductViewModel>> List()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> List()
         {
             var products = await _product.List();
             var productsMap = _mapper.Map<List<ProductViewModel>>(products);
 
-            return productsMap;
+            return Ok(productsMap);
         }
     }
 }
