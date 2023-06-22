@@ -15,7 +15,7 @@ namespace icts_test.Entities.Entities
         [NotMapped]
         public List<Notifies> Notifycoes { get; set; }
 
-        public bool ValidadePropertyString(string value, string propertyName)
+        public bool ValidatePropertyString(string value, string propertyName)
         {
             if (string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(propertyName)) 
             {
@@ -30,7 +30,7 @@ namespace icts_test.Entities.Entities
             return true;
         }
 
-        public bool ValidarPropriedadeInt(int value, string propertyName)
+        public bool ValidatePropertyInt(int value, string propertyName)
         {
             if (value < 1 || string.IsNullOrWhiteSpace(propertyName)) 
             {
